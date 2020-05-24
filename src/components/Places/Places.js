@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Places.css'
 import { Link } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
 import { trackPromise } from 'react-promise-tracker';
 import axios from 'axios';
 class Places extends Component {
@@ -12,16 +13,116 @@ class Places extends Component {
     }
     componentDidMount() {
         trackPromise(
-            axios.get('https://travellog-6th-backend.herokuapp.com/places')
+            axios.get('https://travellog-7th-backend.herokuapp.com/places')
                 .then(res => {
                     const placeslist = res.data;
                     this.setState({ placeslist });
                 }))
     }
+    checkLogintoAdd() {
+        if (localStorage.usertoken !== undefined) {
+            return (
+                <form onSubmit={this.addSubmit}>
+                    <div className="form-group place-form">
+                        <div className="input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">Name place</span>
+                            </div>
+                            <input onChange={(event) => this.isInputChange(event)} type="text" className="form-control" id="name" name="name" />
+                        </div>
+                    </div>
+                    <div className="form-group place-form">
+                        <h4>Upload your image by using some website we recommend: </h4>
+                        <ul>
+                            <li><a href="https://www.imageupload.net/" target="_blank" rel="noopener noreferrer">imageupload</a></li>
+                            <li><a href="https://uphinh.org/" target="_blank" rel="noopener noreferrer">uphinh</a></li>
+                        </ul>
+                        <h4>Then, paste <b>Image URL</b> to the image box</h4>
+                        <h3>Example of imagehost:</h3>
+                        <code>https://imagehost.imageupload.net/2020/05/21/the-earth.jpg</code>
+                        <div className="input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">URL image</span>
+                            </div>
+                            <input onChange={(event) => this.isInputChange(event)} type="text" className="form-control" id="image" name="image" />
+                        </div>
+                    </div>
+                    <button className="btn btn-outline-danger" type="submit">Submit</button>
+                </form>
+            )
+        }
+        else {
+            return (
+                <h4>Login to add new comment</h4>
+            )
+        }
+    }
+    checkLogintoDeleteandEdit(_id) {
+        if (localStorage.usertoken !== undefined) {
+            if (jwt_decode(localStorage.usertoken).email === '17520279@gm.uit.edu.vn') {
+                return (
+                    <nav style={{ textAlign: 'center' }}>
+                        <Link to={`/del/${_id}`}><button type="button" className="btn btn-outline-danger mr-2" >Delete</button></Link>
+                        <Link to={`/upd/${_id}`}><button type="button" className="btn btn-outline-warning mr-2">Edit</button></Link>
+                    </nav>
+                )
+            } else {
+                return (
+                    <h6 className="text-danger"> You need to have admin account to delete or edit content</h6>
+                )
+            }
+        } else {
+            return (
+                <Link className="text-danger" style={{ textDecoration: 'none' }} to="/signin"><h6 style={{ textAlign: 'center' }}>Login to add new place</h6></Link>
+            )
+        }
+    }
+    isInputChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({
+            [name]: value
+        })
+    }
+    addSubmit = (event) => {
+        event.preventDefault();
+        event.target.reset();
+        const blog = {
+            name: this.state.name,
+            image: this.state.image
+        };
+        const checkValue = [];
+        this.state.placeslist.map(data => checkValue.push(data.name))
+        if (checkValue.includes(this.state.name))
+            alert('Invalid name. This name already have. Choose other name.')
+        else {
+            axios.post(`https://travellog-7th-backend.herokuapp.com/places/`, blog)
+                .then(res => {
+                    console.log(res);
+                    console.log(res.data);
+                    axios.get(`https://travellog-7th-backend.herokuapp.com/places`)
+                        .then(res => {
+                            this.setState({ placeslist: res.data })
+                        }).catch(err => {
+                            console.error(err);
+                        });
+                    alert('Add completed.');
+                })
+        }
+    }
     render() {
         const { placeslist } = this.state;
         return (
-            <div className="album py-5 bg" id="reviews">
+            <div className="album bg" id="reviews">
+                <div className="place-box">
+                    <h3>List places we have</h3>
+                    <button className="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseAdding" aria-expanded="false" aria-controls="collapseAdding">
+                        Click to add new place
+                    </button>
+                    <div className="collapse" id="collapseAdding">
+                        {this.checkLogintoAdd()}
+                    </div>
+                </div>
                 <div className="container">
                     <div className="row">
                         {placeslist.map((data, i) => {
@@ -35,11 +136,13 @@ class Places extends Component {
                                                     {data.name}
                                                 </Link>
                                             </p>
+                                            {this.checkLogintoDeleteandEdit(data._id)}
                                         </div>
                                     </div>
                                 </div>
                             )
                         })}
+
                     </div>
                 </div>
             </div>

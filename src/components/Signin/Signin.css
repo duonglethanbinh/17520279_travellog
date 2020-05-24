@@ -5,6 +5,6 @@
 }
 
 .login-form .row {
-    margin-left: 0;
-    margin-right: 0;
+   margin: 20px;
+   padding: 20px 0;
 }

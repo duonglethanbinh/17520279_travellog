@@ -1,0 +1,21 @@
+.delete-box{
+    margin-top: 80px;
+}
+.delete-box .delete-container{
+    margin: 0 10%;
+    background-color: rgb(235, 243, 188);
+}
+.delete-box .delete-container h5{
+    text-align: center;
+}
+.delete-box .delete-container button,
+.delete-box .delete-container form button {
+    margin: 10px;
+}
+.delete-box .delete-container .input-group span{
+    border: 1px solid gray;
+    margin-left: 10px;
+}
+.delete-box .delete-container .input-group input[type=text]{
+    border: 1px solid gray;
+}

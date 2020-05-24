@@ -1,8 +1,31 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
 import './Detail.css';
 class Detail extends Component {
+    checkLogintoDeleteandEdit(Pid) {
+        if (localStorage.usertoken !== undefined) {
+            if (jwt_decode(localStorage.usertoken).email === '17520279@gm.uit.edu.vn') {
+                return (
+                    <div>
+                        <Link to={`/delete/${Pid}`}><button type="button" className="btn btn-outline-danger" >Delete</button></Link>
+                        <Link to={`/update/${Pid}`}><button type="button" className="btn btn-outline-warning">Edit</button></Link>
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <h6 className="text-danger"> You need to have admin account to delete or edit content</h6>
+                )
+            }
+        } else {
+            return (
+                <Link className="text-danger" style={{ textDecoration: 'none' }} to="/signin"><h6>Login to add new blog</h6></Link>
+            )
+        }
+    }
     render() {
-        const { Pname, Ptitle, Pcontent, Pcreated } = this.props;
+        const { Pid, Pname, Ptitle, Pcontent, Pcreated } = this.props;
         // console.log(Pcreated);
         let date = new Date(Pcreated)
         let year = date.getFullYear();
@@ -29,13 +52,13 @@ class Detail extends Component {
         }
         // console.log(year + '-' + month + '-' + dt);
         return (
-            <div className="main_box">
-                <div className="paras" >
-                    <h4>Place: {Pname}</h4>
-                    <h3>{Ptitle}</h3>
-                    <p>{Pcontent}</p>
-                    <h4><i> Created in:&nbsp;&nbsp;&nbsp;{`${year}-${month}-${dt}`}&nbsp;&nbsp;&nbsp;{`${hour}:${min}:${sec} `}</i></h4>
-                </div>
+
+            <div className="paras" >
+                <h4>Place: {Pname}</h4>
+                <h3>{Ptitle}</h3>
+                <p>{Pcontent}</p>
+                <h4><i> Created in:&nbsp;&nbsp;&nbsp;{`${year}-${month}-${dt}`}&nbsp;&nbsp;&nbsp;{`${hour}:${min}:${sec} `}</i></h4>
+                {this.checkLogintoDeleteandEdit(Pid)}
             </div>
         );
     }

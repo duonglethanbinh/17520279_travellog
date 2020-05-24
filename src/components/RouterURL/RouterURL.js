@@ -8,7 +8,11 @@ import NotFound from '../NotFound/NotFound';
 import Signin from '../Signin/Signin'
 import Register from '../Register/Register';
 import Blogs from '../Blogs/Blogs';
-// import Detail from '../Blogs/Detail';
+import Profile from '../Profile/Profile';
+import Delete from '../Blogs/Delete';
+import Update from '../Blogs/Update';
+import DeleteP from '../Places/Delete';
+import UpdateP from '../Places/Update';
 class RouterURL extends Component {
     render() {
         return (
@@ -28,12 +32,13 @@ class RouterURL extends Component {
                 <Route path="/blogs">
                     <Blogs />
                 </Route>
-                <Route path="/signin">
-                    <Signin />
-                </Route>
-                <Route path="/register">
-                    <Register />
-                </Route>
+                <Route path="/delete/:Pid" component={Delete} />
+                <Route path="/update/:Pid" component={Update} />
+                <Route path="/del/:Pid" component={DeleteP} />
+                <Route path="/upd/:Pid" component={UpdateP} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/signin" component={Signin} />
+                <Route exact path="/profile" component={Profile} />
                 <Route>
                     <NotFound />
                 </Route>

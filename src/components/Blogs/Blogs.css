@@ -2,16 +2,14 @@
     border-radius: 5px;
     background-color: #fcdc97;
     margin-top: 62px;
-    margin-bottom: 56px;
     text-align: center;
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 .blog_content button {
-    margin: 20px 0;
-    font-size: 20px;
-    padding: 10px 20px;
-    border-radius: 30px;
+    margin: 10px 0;
+    font-size: 16px;
+    padding: 10px 25px;
 }
 
 .blog_content form {
@@ -46,27 +44,38 @@
     background-color: #45a049;
 }
 
-.search-form {
-    margin: 0 10%;
+.search-box{
     text-align: center;
+    margin: 10px 10%;
 }
-
-.search-form label {
-    margin: 10px;
-    font-size: 18px;
-    font-weight: 600;
+.search span{
+    border: 1px solid #45a049;
+    background-color: rgb(203, 255, 211);
+    margin: 0 1px;
 }
-
-.search-form select {
-    width: 100%;
-}
-
-.search-form button {
-    margin: 0 10px;
+.search button {
     background-color: #a0f749;
 }
 
-.search-form button:hover {
+.search button:hover {
     color: white;
     background-color: #45a049;
+}
+.pagination{
+    margin: 15px;
+    padding: 10px;
+    
+}
+.pagination h4{
+    margin: 10px;
+    color: black;
+    font-size: 18px;
+}
+.pagination li{
+    background-color: rgb(203, 255, 211);
+    color: black;
+    font-size: 18px;
+    border-radius: 10px;
+    line-height: 18px;
+    margin: 2px;
 }

@@ -28,7 +28,7 @@ class Contact extends Component {
             submitResult: false
         });
 
-        fetch('https://travellog-6th-backend.herokuapp.com/contacts',
+        fetch('https://travellog-7th-backend.herokuapp.com/contacts',
             {
                 method: "POST",
                 headers: {
@@ -44,10 +44,12 @@ class Contact extends Component {
             .then((json) => {
                 this.setState({ submitted: true, submitResult: true });
                 alert("Success")
+
             })
             .catch((error) => {
                 this.setState({ submitted: true, submitResult: false });
             });
+
     }
     render() {
         return (
@@ -58,11 +60,11 @@ class Contact extends Component {
                     <img src={Form} alt="Form" />
                     <form id="contact-form" onSubmit={(event) => this.submitForm(event)}>
                         <label htmlFor="name">Full Name</label>
-                        <input onChange={(event) => this.isInputChange(event)} type="text" id="name" name="name" placeholder="Your full name.." />
+                        <input onChange={(event) => this.isInputChange(event)} type="text" id="name" name="name" placeholder="Your full name.." required className="form-control"/>
                         <label htmlFor="email">Email</label>
-                        <input onChange={(event) => this.isInputChange(event)} type="email" id="email" name="email" placeholder="Your email.." />
+                        <input onChange={(event) => this.isInputChange(event)} type="email" id="email" name="email" placeholder="Your email.." required className="form-control"/>
                         <label htmlFor="message">Your Message</label>
-                        <textarea onChange={(event) => this.isInputChange(event)} id="message" name="message" placeholder="Write something.." rows="5" ></textarea>
+                        <textarea onChange={(event) => this.isInputChange(event)} id="message" name="message" placeholder="Write something.." rows="5" className="form-control" required></textarea>
                         <input type="submit" value="Submit" />
                     </form>
                 </div>
